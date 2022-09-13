@@ -1,9 +1,10 @@
 const Customers = require("../models/customers");
-const { usersAllowedUpdates } = require('../constants/usersAllowedUpdates')
-const serverResponse = require('../utils/serverResponse')
+const { usersAllowedUpdates } = require('../constants/usersAllowedUpdates');
+const serverResponse = require('../utils/serverResponse');
 const validator = require('validator');
 const customers = require("../models/customers");
-
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const postCustomer = async (req, res) => {
     try {
@@ -17,14 +18,27 @@ const postCustomer = async (req, res) => {
 
             return serverResponse(res, 404, { message: "Email is invalid, please kindly fix it" })
         }
+        const tokanpassword = jwt.sign({ id: customers.id, expiresIn: 7000 }, "MOSHE_OGALBO_TOP_SECRET")
+        
         await customers.save()
-        return serverResponse(res, 200, customers)
+        // 
+        return serverResponse(res, 200, {
+            customer:
+            {
+                userName: customers.userName,
+                fullName: customers.fullName,
+                email: customers.email,
+                phoneNumber: customers.phoneNumber,
+                typeTreatment: customers.typeTreatment,
+                activePhysical: customers.activePhysical
+            }, tokanpassword
+        })
     } catch (e) {
         return serverResponse(res, 500, { message: "internal error occured" + e })
     }
 }
 
-const verifyLogin = async (req, res) => {
+const verifyLoginCustomers = async (req, res) => {
     try {
 
         const loginInfo = { ...req.body }
@@ -55,7 +69,7 @@ const getAllCustomers = async (req, res) => {
 const getCustomerId = async (req, res) => {
     try {
         const customerId = req.params.customerId
-        const customer = await customers.findOne({ _id: customerId })
+        const customer = await customers.findOne({ _id: customerId }).select("-password");
         return serverResponse(res, 200, customer)
     } catch (e) {
         return serverResponse(res, 500, { message: "internal error occured" + e })
@@ -86,7 +100,7 @@ const putCustomerId = async (req, res) => {
     }
 
     try {
-        const customer = await customers.findOne({ _id: customerId })
+        const customer = await Customers.findOne({ _id: customerId })
         if (!customer) {
             return serverResponse(res, 404, { message: "customer does not exist" });
         }
@@ -112,5 +126,5 @@ module.exports = {
     postCustomer,
     deleteCustomerId,
     putCustomerId,
-    verifyLogin
+    verifyLoginCustomers
 };

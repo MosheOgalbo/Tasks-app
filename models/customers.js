@@ -2,7 +2,6 @@
 const mongoose = require('mongoose')
 
 
-
 /* MODEL customers   */
 const customersSchema = new mongoose.Schema({
     userName: { type: String, min: 2, max: 12, required: true },
