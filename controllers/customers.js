@@ -19,7 +19,7 @@ const postCustomer = async (req, res) => {
             return serverResponse(res, 404, { message: "Email is invalid, please kindly fix it" })
         }
         const tokanpassword = jwt.sign({ id: customers.id, expiresIn: 7000 }, "MOSHE_OGALBO_TOP_SECRET")
-        
+
         await customers.save()
         // 
         return serverResponse(res, 200, {
