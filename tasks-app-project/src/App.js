@@ -1,4 +1,4 @@
-import Login from './components/LoginScreen/Login';
+import Login from './pages/LoginScreen/Login';
 import React from 'react';
 import './App.css';
 

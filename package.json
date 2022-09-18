@@ -6,11 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "dev": "concurrently \"nodemon server.js\" \"cd tasks-app-project && npm start\""
+    "dev": "concurrently \"nodemon server.js\" \"cd tasks-app-project && npm start\"",
+    "render-postbuild": "cd tasks-app-project && yarn install && yarn build"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "concurrently": "^7.3.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",

@@ -6,7 +6,8 @@ const serviceProviders = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     phoneNumber: { type: String, required: true },
     password: { type: String, required: true },
-    group: { type: String, enum: ['nutritionist', 'personalTrainer', 'MeetingCoordinator','Follow-up nurse'], required: true }
+    group: { type: String, enum: ['nutritionist', 'personalTrainer', 'MeetingCoordinator','Follow-up nurse'], required: true },
+    salt:{type:String}
 });
 
 const Providers = mongoose.model('Providers', serviceProviders);

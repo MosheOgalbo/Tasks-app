@@ -10,7 +10,8 @@ const customersSchema = new mongoose.Schema({
     phoneNumber: { type: String, required: true },
     password: { type: String, required: true }, 
     typeTreatment: { type: String, default: null },
-    activePhysical: { type: Boolean, default: false }
+    activePhysical: { type: Boolean, default: false },
+    salt:{type:String}
 });
 const Customers = mongoose.model("Customers", customersSchema);
 

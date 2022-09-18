@@ -1,15 +1,17 @@
 const Customers = require("../models/customers");
+const { JWT_SECRET } = process.env;
 const { usersAllowedUpdates } = require('../constants/usersAllowedUpdates');
 const serverResponse = require('../utils/serverResponse');
 const validator = require('validator');
 const customers = require("../models/customers");
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 require("dotenv").config();
 
 const postCustomer = async (req, res) => {
     try {
-
-        const customers = new Customers({ ...req.body })
+        const salt = bcrypt.genSaltSync()
+        const customers = new Customers({ ...req.body, salt })
         if (!validator.isStrongPassword(customers.password)) {
             return serverResponse(res, 404, { message: "password should be a strong password and not weawk" })
         }
@@ -18,36 +20,52 @@ const postCustomer = async (req, res) => {
 
             return serverResponse(res, 404, { message: "Email is invalid, please kindly fix it" })
         }
-        const tokanpassword = jwt.sign({ id: customers.id, expiresIn: 7000 }, "MOSHE_OGALBO_TOP_SECRET")
+        const tokanpassword = jwt.sign({ id: customers.id, JWT_SECRET, expiresIn: 7900 }, "MOSHE_OGALBO_TOP_SECRET")
+       
+        customers.password = bcrypt.hashSync(customers.password, salt)
 
         await customers.save()
-        // 
+
         return serverResponse(res, 200, {
-            customer:
-            {
-                userName: customers.userName,
-                fullName: customers.fullName,
-                email: customers.email,
-                phoneNumber: customers.phoneNumber,
-                typeTreatment: customers.typeTreatment,
-                activePhysical: customers.activePhysical
-            }, tokanpassword
+            tokanpassword
+            // , customer:
+            // {
+            //     userName: customers.userName,
+            //     fullName: customers.fullName,
+            //     email: customers.email,
+            //     phoneNumber: customers.phoneNumber,
+            //     typeTreatment: customers.typeTreatment,
+            //     activePhysical: customers.activePhysical
+            //     , password: customers.password
+            // }
         })
     } catch (e) {
         return serverResponse(res, 500, { message: "internal error occured" + e })
     }
 }
 
+const someVerifyTokenFunctionCostomers = async (req, res) => {
+    try {
+        const token = req.headers['x-access-token'];
+        if (!token) {
+            return serverResponse(res, 401, { message: " no tocken valid of user  " })
+        }
+    }
+    catch (e) {
+        return serverResponse(res, 500, { message: "internal error occured" + e })
+    }
+}
 const verifyLoginCustomers = async (req, res) => {
     try {
-
         const loginInfo = { ...req.body }
-        const existCustomer = await Customers.findOne({ email: loginInfo.email, password: loginInfo.password }).select("-password");
-
+        const existCustomer = await Customers.findOne({email: loginInfo.email});
         if (!existCustomer) {
-            return serverResponse(res, 401, { message: "no such user - password or email is incorrect." })
+            return serverResponse(res, 401, { message: "no such user - email is incorrect." })
         }
-
+        const isPassWordMatches = await bcrypt.compare(req.body.password, existCustomer.password)
+        if(!isPassWordMatches){
+            return serverResponse(res, 401, {message:"the password you've entered is incorrect"})
+        }
         return serverResponse(res, 200, existCustomer)
     } catch (e) {
         return serverResponse(res, 500, { message: "internal error occured" + e })
@@ -57,8 +75,8 @@ const verifyLoginCustomers = async (req, res) => {
 
 const getAllCustomers = async (req, res) => {
     try {
+
         const allCustomers = await Customers.find({})
-            //.select("_id userName fullName email  phoneNumber typeTreatment activePhysical");
             .select("-password");
         return serverResponse(res, 200, allCustomers)
     } catch (e) {
@@ -126,5 +144,6 @@ module.exports = {
     postCustomer,
     deleteCustomerId,
     putCustomerId,
-    verifyLoginCustomers
+    verifyLoginCustomers,
+    someVerifyTokenFunctionCostomers
 };
