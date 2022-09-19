@@ -1,11 +1,14 @@
+body{
+  background-color: whitesmoke;
+  background-image:  url("https://www.clalitmashlima.co.il/tm-content/uploads/2019/06/shutterstock_1578407605.jpg");
+  background-repeat:no-repeat;
+  background-size: 100rem;
+ 
+}
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

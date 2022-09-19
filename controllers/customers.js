@@ -6,6 +6,7 @@ const validator = require('validator');
 const customers = require("../models/customers");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const { nextTick } = require("process");
 require("dotenv").config();
 
 const postCustomer = async (req, res) => {
@@ -21,9 +22,7 @@ const postCustomer = async (req, res) => {
             return serverResponse(res, 404, { message: "Email is invalid, please kindly fix it" })
         }
         const tokanpassword = jwt.sign({ id: customers.id, JWT_SECRET, expiresIn: 7900 }, "MOSHE_OGALBO_TOP_SECRET")
-       
         customers.password = bcrypt.hashSync(customers.password, salt)
-
         await customers.save()
 
         return serverResponse(res, 200, {
@@ -44,12 +43,15 @@ const postCustomer = async (req, res) => {
     }
 }
 
-const someVerifyTokenFunctionCostomers = async (req, res) => {
+const someVerifyTokenFunctionCostomers = async (req, res, next) => {
     try {
         const token = req.headers['x-access-token'];
         if (!token) {
             return serverResponse(res, 401, { message: " no tocken valid of user  " })
         }
+        //להוסיף שהאם הטוקן לא בתוקף אז לחדש לו
+         
+        next();
     }
     catch (e) {
         return serverResponse(res, 500, { message: "internal error occured" + e })
@@ -58,15 +60,17 @@ const someVerifyTokenFunctionCostomers = async (req, res) => {
 const verifyLoginCustomers = async (req, res) => {
     try {
         const loginInfo = { ...req.body }
-        const existCustomer = await Customers.findOne({email: loginInfo.email});
+        const existCustomer = await Customers.findOne({ email: loginInfo.email });
         if (!existCustomer) {
             return serverResponse(res, 401, { message: "no such user - email is incorrect." })
         }
         const isPassWordMatches = await bcrypt.compare(req.body.password, existCustomer.password)
-        if(!isPassWordMatches){
-            return serverResponse(res, 401, {message:"the password you've entered is incorrect"})
+        if (!isPassWordMatches) {
+            return serverResponse(res, 401, { message: "the password you've entered is incorrect" })
         }
-        return serverResponse(res, 200, existCustomer)
+        const tokanpassword = jwt.sign({ id: customers.id, JWT_SECRET, expiresIn: 7900 }, "MOSHE_OGALBO_TOP_SECRET")
+
+        return serverResponse(res, 200, { existCustomer, tokanpassword })
     } catch (e) {
         return serverResponse(res, 500, { message: "internal error occured" + e })
     }

@@ -1,0 +1,23 @@
+
+
+.Toolbar-support-header {
+    -webkit-box-align:center;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.motivation{
+    font-weight: 500;
+    color:red;
+    font-size: 2.5em;
+    line-height:2rem;
+    text-align: center;
+    margin: 20%;
+    text-shadow: 2em 2em 5em blue;
+}
+.percentage{
+    display: flex;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}

@@ -1,0 +1,57 @@
+.login-screen{
+    display: flex;
+    margin: 0.5rem;
+    height: 5.5rem;
+    width: 45%;
+    flex-wrap: wrap;
+    flex-direction:inherit;
+    justify-content: space-around;
+    align-content: stretch;
+   
+}
+.loginSystem {
+    display: flex;
+    margin: 5.5rem;
+    height: 5rem;
+    width: 15rem;
+    border: 0.5rem solid blue;
+    padding: 5.5rem;
+    flex-direction: column;
+    transform: translate(20.5rem, 0.7rem);
+}
+
+.selec-Type-User {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    flex-wrap: nowrap;
+
+
+}
+
+.radioButtons {
+    height: 2em;
+    width: 15em;
+}
+
+.login {
+    display: flex;
+    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* לא עובד */
+@keyframes loginSystem {
+    from {
+        transform: translate(20.5rem, 9.7rem);
+    }
+
+    to {
+        transform: translate(-3.5rem, 5.7rem);
+
+    }
+}
