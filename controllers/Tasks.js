@@ -6,7 +6,7 @@ const validator = require('validator');
 
 const postNewTasks = async (req, res) => {
     try {
-        const serviceProviderId = req.body.serviceProviderId
+        const serviceProviderId = req.body.owner;
         const serviceProvider = await Providers.findOne({ _id: serviceProviderId })
         if (!serviceProvider) {
             return serverResponse(res, 401, { message: "you are not a service provider, you cant add a task!" })
@@ -31,13 +31,17 @@ const getAllTasks = async (req, res) => {
 
 const deleteTasksId = async (req, res) => {
     try {
-        const serviceProviderId = req.body.serviceProviderId
+        const serviceProviderId = req.body.serviceProviderId;
         const serviceProvider = await Providers.findOne({ _id: serviceProviderId })
         if (!serviceProvider) {
             return serverResponse(res, 401, { message: "you are not a service provider, you cant add a task!" })
         }
-
         const tasksID = req.params.tasksId;
+        const task = await Tasks.findOne({ _id: tasksID })
+        if (serviceProviderId !== task.owner.toString()) {
+            return serverResponse(res, 401, { message: "you are not a service provider of is task , you cannot delete  " })
+        }
+
         const tasks = await Tasks.findOneAndDelete({ _id: tasksID });
         return serverResponse(res, 200, tasks)
     } catch (e) {
@@ -52,19 +56,27 @@ const putTasksId = async (req, res) => {
     if (!serviceProvider) {
         return serverResponse(res, 401, { message: "you are not a service provider, you cant add a task!" })
     }
-    const tasksId = req.params.tasksId;
-    
+
+    const tasksID = req.params.tasksId;
+    const task = await Tasks.findOne({ _id: tasksID })
+    if (serviceProviderId !== task.owner.toString()) {
+        return serverResponse(res, 401, { message: "you are not a service provider of is task , you cannot delete  " })
+    }
+
     delete req.body.serviceProviderId
     const updates = Object.keys(req.body);
-    //console.log(updates)
+    // console.log(updates)
     const isValidOperation = updates.every((update) => tacksAllowedUpdates.includes(update));
 
     if (!isValidOperation) {
         return serverResponse(res, 400, { message: "Invalid updates" });
     }
 
+
+   
+
     try {
-        const tasks = await Tasks.findOne({ _id: tasksId })
+        const tasks = await Tasks.findOne({ _id: tasksID })
         if (!tasks) {
             return serverResponse(res, 404, { message: "customer does not exist" });
         }

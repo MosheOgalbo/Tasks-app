@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axios from 'axios'
-import "./Login.css"
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import "./Login.css";
 
 const Login = () => {
+  const navigate = useNavigate()
   const [userName, setUserName] = useState(null);
   const [password, setPassword] = useState(null);
   const [userType, setUserType] = useState("Customers");
@@ -15,7 +17,8 @@ const Login = () => {
       const token = await userLogin.data;
       // console.log(token)
       if (token.tokanpassword) { sessionStorage.setItem('token', token.tokanpassword); }
-      //navigate
+      navigate('Bloug');
+
     } catch (e) {
       console.log(e.message)
     }
@@ -28,7 +31,7 @@ const Login = () => {
       const token = await userLogin.data;
       // console.log(token)
       if (token.tokanpassword) { sessionStorage.setItem('token', token.tokanpassword); }
-      //navigate
+      navigate('Bloug');
     } catch (e) {
       console.log(e.message)
     }
@@ -45,10 +48,11 @@ const Login = () => {
       <div className="loginSystem">
 
         <div className="selec-Type-User">
-          <a><button className="radioButtons" type="button" onClick={() => { setUserType("Customers") }}> Customers</button></a>
-          <a><button className="radioButtons" type="button" onClick={() => { setUserType("Providers") }} >Providers</button></a>
+          <div><button className="radioButtons" type="button" onClick={() => { setUserType("Customers") }}> Customers</button></div>
+          <div><button className="radioButtons" type="button" onClick={() => { setUserType("Providers") }} >Providers</button></div>
         </div>
         <form autocomplete="off">
+
           <div className="login">
 
             <label form='userName'>{userType + " email"}</label>

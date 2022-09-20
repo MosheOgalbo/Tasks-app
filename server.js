@@ -33,7 +33,7 @@ app.use(cors())
 //customers
 app.post("/api/customers", postCustomer); // not needed to verify user
 app.post("/api/loginCustomers", verifyLoginCustomers); // not needed to verify user
-app.get("/api/customers", someVerifyTokenFunctionCostomers, getAllCustomers);
+app.get("/api/customers", getAllCustomers);
 app.get("/api/customer/:customerId", someVerifyTokenFunctionCostomers, getCustomerId);
 app.delete("/api/customer/:customerId", deleteCustomerId);
 app.put("/api/customer/:customerId", someVerifyTokenFunctionCostomers, putCustomerId);
@@ -46,15 +46,12 @@ app.delete("/api/provider/:providerId", someVerifyTokenFunctionProviders, delete
 app.put("/api/provider/:providerId", someVerifyTokenFunctionProviders, putProviderId);
 //Tasks
 app.get("/api/Tasks", getAllTasks);
-app.post("/api/Tasks", postNewTasks);
-app.delete("/api/Tasks/:tasksId", deleteTasksId)
-app.put("/api/Tasks/:tasksId", putTasksId)
+app.post("/api/Tasks", someVerifyTokenFunctionProviders, postNewTasks);
+app.delete("/api/Tasks/:tasksId",someVerifyTokenFunctionProviders, deleteTasksId)
+app.put("/api/Tasks/:tasksId",someVerifyTokenFunctionProviders, putTasksId)
 
 
-
-
-
-
+//
 app.get("*", (req, res) => {
     res.sendFile(__dirname + "/tasks-app-project/build/index.html")
 })

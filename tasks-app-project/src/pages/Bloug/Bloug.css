@@ -1,11 +1,23 @@
 
-
 .Toolbar-support-header {
     -webkit-box-align:center;
+    color:rgb(233, 23, 58);
+    /*height: 20erm*/
+    /* width: 10%; */
     display: flex;
-    flex-wrap: nowrap;
     justify-content: space-between;
     flex-direction: row;
+    flex-wrap: wrap; 
+}
+
+.fixed-containers{
+    position: fixed;
+    top:0;
+    z-index: 10;
+}
+
+.fixed-container-right{
+    right: 0;
 }
 .motivation{
     font-weight: 500;
@@ -20,4 +32,18 @@
     display: flex;
     padding-right: 2rem;
     padding-left: 2rem;
+}
+
+.percentage-box{
+    border-radius: 80px 30px 10px 0px;
+}
+.percentage-section{
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.logo .system{
+    /* display: flex; */
+ 
 }

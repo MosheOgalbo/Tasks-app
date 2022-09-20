@@ -6,7 +6,8 @@ const tasksToUsers = new mongoose.Schema({
     amountOfRounds:{type:Number, required: true},
     activity:{type:String, enum:['running', 'rowing', 'stairs', 'dumbbells', 'straps', 'pilatesMat', 'bicycleRiding'], required: true},
     timeActivity: {type:Number, required:true},  
-    intensityLevel:{type:String, enum:['easy', 'medium', 'hard'], default:'easy'}
+    intensityLevel:{type:String, enum:['easy', 'medium', 'hard'], default:'easy'},
+    owner:{type: mongoose.Types.ObjectId, ref:'Providers'}
 });
 
 const Tasks = mongoose.mongoose.model("Tasks", tasksToUsers);

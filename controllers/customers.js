@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const { nextTick } = require("process");
 require("dotenv").config();
+const TEN_MINUTES = 1000 * 60 * 10;
 
 const postCustomer = async (req, res) => {
     try {
@@ -50,7 +51,13 @@ const someVerifyTokenFunctionCostomers = async (req, res, next) => {
             return serverResponse(res, 401, { message: " no tocken valid of user  " })
         }
         //להוסיף שהאם הטוקן לא בתוקף אז לחדש לו
-         
+        const nweTocken = jwt.verify(token, cookieSecret);
+        if (Date.now() - new Date(nweTocken) > TEN_MINUTES) {
+            res.headers('x-access-token', nweTocken, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 24 * 30
+            })
+        }
         next();
     }
     catch (e) {

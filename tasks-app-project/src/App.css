@@ -1,12 +1,22 @@
-body{
-  background-color: whitesmoke;
-  background-image:  url("https://www.clalitmashlima.co.il/tm-content/uploads/2019/06/shutterstock_1578407605.jpg");
-  background-repeat:no-repeat;
-  background-size: 100rem;
- 
+body {
+
+  background-image: url("https://www.clalitmashlima.co.il/tm-content/uploads/2019/06/shutterstock_1578407605.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+
+
 }
+
 .App {
+  background-color: rgba(245, 245, 500, 0.5);
+  min-height: 100vh;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* height: 120vh; */
+  width: 100vw;
 }
 
 
@@ -18,7 +28,6 @@ body{
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,7 +44,11 @@ body{
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
+    width: 100px;
+    height: 100px;
+    padding: 15px;
   }
 }

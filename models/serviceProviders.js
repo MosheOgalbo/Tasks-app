@@ -4,7 +4,7 @@ const serviceProviders = new mongoose.Schema({
     userName: { type: String, min: 2, max: 12, required: true },
     fullName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    phoneNumber: { type: String, required: true },
+    phoneNumber: { type: String, required: true,unique: true  },
     password: { type: String, required: true },
     group: { type: String, enum: ['nutritionist', 'personalTrainer', 'MeetingCoordinator','Follow-up nurse'], required: true },
     salt:{type:String}
