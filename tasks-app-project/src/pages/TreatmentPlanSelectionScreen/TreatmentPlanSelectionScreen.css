@@ -1,0 +1,37 @@
+.Tracks-screen{
+    background-color: rgba(245, 245, 500, 0.5);
+    min-height: 100vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* height: 120vh; */
+    width: 100vw;
+}
+.select-Tracks{
+    display: flex;
+    margin: 0.5rem;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+    column-gap: 20px;
+}
+.Tracks{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.Track-title{
+    padding-bottom: 16px;
+    border-style: solid;
+    border-width: 6px;
+    border-color: #fff;
+    border-radius: 32px;
+    background-color: #8ad921;
+    background-position: 50% 0%;
+    background-size: auto;
+    box-shadow: 0 11px 40px 0 rgb(33 51 9 / 20%);
+}
