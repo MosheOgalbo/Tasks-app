@@ -1,10 +1,11 @@
 const Providers = require('../models/serviceProviders')
 const serverResponse = require('../utils/serverResponse')
 const validator = require('validator');
-const { JWT_SECRET } = process.env;
+
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const { providersAllowedUpdates } = require('../constants/usersAllowedUpdates');
+
 
 const postProvider = async (req, res) => {
     try {
@@ -18,7 +19,9 @@ const postProvider = async (req, res) => {
 
             return serverResponse(res, 404, { message: "Email is invalid, please kindly fix it" })
         }
-        const tokanpassword = jwt.sign({ id: providers.id, JWT_SECRET, expiresIn: 7900 }, "MOSHE_OGALBO_TOP_SECRET");
+       
+        const tokanpassword =  jwt.sign({ id: providers.id, JWT_SECRET, expiresIn: 7900 }, "MOSHE_OGALBO_TOP_SECRET");
+
         providers.password = bcrypt.hashSync(providers.password, salt)
         await providers.save()
         return serverResponse(res, 200, { tokanpassword })
@@ -28,18 +31,7 @@ const postProvider = async (req, res) => {
     }
 }
 
-const someVerifyTokenFunctionProviders = async (req, res, next) => {
-    try {
-        const token = req.headers['x-access-token'];
-        if (!token) {
-            return serverResponse(res, 401, { message: " no tocken valid of user  " })
-        }
-        next();
-    }
-    catch (e) {
-        return serverResponse(res, 500, { message: "internal error occured" + e })
-    }
-}
+
 const verifyLoginProviders = async (req, res) => {
     try {
 
@@ -52,7 +44,8 @@ const verifyLoginProviders = async (req, res) => {
         if (!isPassWordMatches) {
             return serverResponse(res, 401, { message: "the password you've entered is incorrect" })
         }
-        const tokanpassword = jwt.sign({ id: customers.id, JWT_SECRET, expiresIn: 7900 }, "MOSHE_OGALBO_TOP_SECRET")
+        const tokanpassword = jwt.sign({ id: Providers.id, JWT_SECRET, expiresIn: 7900 }, "MOSHE_OGALBO_TOP_SECRET")
+        
 
         return serverResponse(res, 200, { tokanpassword, existProviders })
     } catch (e) {
@@ -123,6 +116,5 @@ module.exports = {
     verifyLoginProviders,
     getProviderId,
     deleteProviderId,
-    putProviderId,
-    someVerifyTokenFunctionProviders
+    putProviderId
 };

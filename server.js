@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { PORT } = process.env;
+
 const express = require('express');
 const { getAllCustomers,
     getCustomerId,
@@ -8,15 +8,16 @@ const { getAllCustomers,
     deleteCustomerId,
     verifyLoginCustomers,
     putCustomerId,
-    someVerifyTokenFunctionCostomers } = require('./controllers/customers');
+     } = require('./controllers/customers');
 const { postProvider,
     getAllProvider,
     verifyLoginProviders,
     getProviderId,
     deleteProviderId,
     putProviderId,
-    someVerifyTokenFunctionProviders } = require('./controllers/providers');
+     } = require('./controllers/providers');
 const { getAllTasks, postNewTasks, deleteTasksId, putTasksId } = require('./controllers/Tasks');
+const someVerifyTokenFunction = require('./middlewares/verifyToken');
 require("dotenv").config();
 const app = express()
 
@@ -33,22 +34,22 @@ app.use(cors())
 //customers
 app.post("/api/customers", postCustomer); // not needed to verify user
 app.post("/api/loginCustomers", verifyLoginCustomers); // not needed to verify user
-app.get("/api/customers", getAllCustomers);
-app.get("/api/customer/:customerId", someVerifyTokenFunctionCostomers, getCustomerId);
-app.delete("/api/customer/:customerId", deleteCustomerId);
-app.put("/api/customer/:customerId", someVerifyTokenFunctionCostomers, putCustomerId);
+app.get("/api/customers",someVerifyTokenFunction, getAllCustomers);
+app.get("/api/customer/:customerId", someVerifyTokenFunction, getCustomerId);
+app.delete("/api/customer/:customerId",someVerifyTokenFunction, deleteCustomerId);
+app.put("/api/customer/:customerId", someVerifyTokenFunction, putCustomerId);
 //providers
 app.post("/api/providers", postProvider);
 app.get("/api/providers", getAllProvider);
-app.post("/api/loginProviders", someVerifyTokenFunctionProviders, verifyLoginProviders);
-app.get("/api/provider/:providerId", someVerifyTokenFunctionProviders, getProviderId);
-app.delete("/api/provider/:providerId", someVerifyTokenFunctionProviders, deleteProviderId);
-app.put("/api/provider/:providerId", someVerifyTokenFunctionProviders, putProviderId);
+app.post("/api/loginProviders", verifyLoginProviders);
+app.get("/api/provider/:providerId", someVerifyTokenFunction, getProviderId);
+app.delete("/api/provider/:providerId", someVerifyTokenFunction, deleteProviderId);
+app.put("/api/provider/:providerId", someVerifyTokenFunction, putProviderId);
 //Tasks
 app.get("/api/Tasks", getAllTasks);
-app.post("/api/Tasks", someVerifyTokenFunctionProviders, postNewTasks);
-app.delete("/api/Tasks/:tasksId",someVerifyTokenFunctionProviders, deleteTasksId)
-app.put("/api/Tasks/:tasksId",someVerifyTokenFunctionProviders, putTasksId)
+app.post("/api/Tasks", someVerifyTokenFunction, postNewTasks);
+app.delete("/api/Tasks/:tasksId",someVerifyTokenFunction, deleteTasksId)
+app.put("/api/Tasks/:tasksId",someVerifyTokenFunction, putTasksId)
 
 
 //
@@ -60,7 +61,7 @@ app.get("*", (req, res) => {
 
 mongoose.connect('mongodb://localhost:27017/test1', { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.listen(PORT || 8000, () => {
+app.listen(process.env.PORT || 8000, () => {
     console.log('Server running at http://127.0.0.1:8000/');
 })
 

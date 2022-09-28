@@ -1,14 +1,12 @@
 const Customers = require("../models/customers");
-const { JWT_SECRET } = process.env;
 const { usersAllowedUpdates } = require('../constants/usersAllowedUpdates');
 const serverResponse = require('../utils/serverResponse');
 const validator = require('validator');
 const customers = require("../models/customers");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-const { nextTick } = require("process");
-require("dotenv").config();
-const TEN_MINUTES = 1000 * 60 * 10;
+
+
 
 const postCustomer = async (req, res) => {
     try {
@@ -44,26 +42,8 @@ const postCustomer = async (req, res) => {
     }
 }
 
-const someVerifyTokenFunctionCostomers = async (req, res, next) => {
-    try {
-        const token = req.headers['x-access-token'];
-        if (!token) {
-            return serverResponse(res, 401, { message: " no tocken valid of user  " })
-        }
-        //להוסיף שהאם הטוקן לא בתוקף אז לחדש לו
-        const nweTocken = jwt.verify(token, cookieSecret);
-        if (Date.now() - new Date(nweTocken) > TEN_MINUTES) {
-            res.headers('x-access-token', nweTocken, {
-                httpOnly: true,
-                maxAge: 60 * 60 * 24 * 30
-            })
-        }
-        next();
-    }
-    catch (e) {
-        return serverResponse(res, 500, { message: "internal error occured" + e })
-    }
-}
+
+
 const verifyLoginCustomers = async (req, res) => {
     try {
         const loginInfo = { ...req.body }
@@ -75,7 +55,7 @@ const verifyLoginCustomers = async (req, res) => {
         if (!isPassWordMatches) {
             return serverResponse(res, 401, { message: "the password you've entered is incorrect" })
         }
-        const tokanpassword = jwt.sign({ id: customers.id, JWT_SECRET, expiresIn: 7900 }, "MOSHE_OGALBO_TOP_SECRET")
+        const tokanpassword = jwt.sign({ id: customers.id, }, process.env.JWT_SECRET, { expiresIn: 7900000000 })
 
         return serverResponse(res, 200, { existCustomer, tokanpassword })
     } catch (e) {
@@ -155,6 +135,5 @@ module.exports = {
     postCustomer,
     deleteCustomerId,
     putCustomerId,
-    verifyLoginCustomers,
-    someVerifyTokenFunctionCostomers
+    verifyLoginCustomers
 };
