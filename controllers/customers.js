@@ -20,7 +20,7 @@ const postCustomer = async (req, res) => {
 
             return serverResponse(res, 404, { message: "Email is invalid, please kindly fix it" })
         }
-        const tokanpassword = jwt.sign({ id: customers.id, JWT_SECRET, expiresIn: 7900 }, "MOSHE_OGALBO_TOP_SECRET")
+        const tokanpassword = jwt.sign( {id: customers.id, expiresIn: 79000}, process.env.JWT_SECRET)
         customers.password = bcrypt.hashSync(customers.password, salt)
         await customers.save()
 
@@ -55,7 +55,7 @@ const verifyLoginCustomers = async (req, res) => {
         if (!isPassWordMatches) {
             return serverResponse(res, 401, { message: "the password you've entered is incorrect" })
         }
-        const tokanpassword = jwt.sign({ id: customers.id, }, process.env.JWT_SECRET, { expiresIn: 7900000000 })
+        const tokanpassword = jwt.sign( {id: customers.id, expiresIn: 7900000000}, process.env.JWT_SECRET)
 
         return serverResponse(res, 200, { existCustomer, tokanpassword })
     } catch (e) {

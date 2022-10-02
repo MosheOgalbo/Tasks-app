@@ -5,14 +5,12 @@ import NotFound from "./components/NotFound";
 import PersonalArea from "./pages/PersonalArea/personalArea"
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Login from './pages/LoginScreen/Login';
-import Registration from './pages/RegistrationScreen/Registration';
-import TreatmentPlanSelectionScreen from './pages/TreatmentPlanSelectionScreen/TreatmentPlanSelectionScreen';
-import UserBodyData from './pages/UserBodyData/UserBodyData';
+import RegistrationFullProccess from './pages/RegistrationFullProccess/RegistrationFullProccess';
 
 
 
 const Routing = () => {
-  let tokenFromSession;
+
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
@@ -34,18 +32,14 @@ const Routing = () => {
         <Routes>
           <Route path="/" element={<Bloug />} />
           <Route path="/Login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-
-          <Route path='/Registration' element={<Registration />} />
-          <Route path='/TreatmentPlanSelectionScreen' element={<TreatmentPlanSelectionScreen />} />
-          <Route path='/UserBodyData' element={<UserBodyData/>} />
-
+          <Route path="/Registration/:step" element={<RegistrationFullProccess  setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         :
         <Routes>
 
           <Route path="/" element={<App />} />
-          <Route path="PersonalArea" element={<PersonalArea />} />
+          <Route path="/PersonalArea" element={<PersonalArea />} />
           <Route path="*" element={<NotFound />} />
         </Routes>}
     </BrowserRouter>

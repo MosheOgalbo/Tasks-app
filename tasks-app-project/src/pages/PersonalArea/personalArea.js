@@ -1,6 +1,6 @@
 import React from 'react'
 
-const  personalArea = () => {
+const  PersonalArea = () => {
   
   return (
     <div>
@@ -9,4 +9,4 @@ const  personalArea = () => {
   )
 }
 
-export default  personalArea
+export default  PersonalArea

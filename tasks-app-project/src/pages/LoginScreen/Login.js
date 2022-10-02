@@ -15,29 +15,32 @@ const Login = ({ setIsAuthenticated }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const validatorLogin = () => {
+    let validFlag = true
     setErrorMessage(" ")
     if (!userName && !password) {
       setErrorMessage("There are no values ​​in the fields")
+      validFlag = false
     }
-    if (userName.length > 20 && password.length > 20) {
+    if (userName.length > 20 || password.length > 20) {
       setErrorMessage("The data is too long")
+      validFlag = false
     }
-    if (userName.length < 8 && password.length < 8) {
+    if (userName.length < 8 || password.length < 8) {
       setErrorMessage("The data length is too short")
+      validFlag = false
     }
     if (!validator.isEmail(userName)) {
       setErrorMessage("Invalid email")
+      validFlag = false
     }
-
     if (errorMessage === "Request failed with status code 500") {
       setErrorMessage("No such user exists")
+      validFlag = false
     }
-    else {
-      //נקראה גם ללא קריאה 
-      console.log(errorMessage)
+    if(validFlag){
       login();
     }
-  }
+      }
 
   const login = async () => {
     try {
@@ -57,7 +60,7 @@ const Login = ({ setIsAuthenticated }) => {
     }
   }
 
-  // useEffect({
+  // useEffect(()=>{
 
   // }, [])
 

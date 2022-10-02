@@ -2,10 +2,11 @@ import React from 'react';
 import { GiShinyApple, GiWeightLiftingUp, GiSkeletonInside } from 'react-icons/gi';
 import { GoPlus } from "react-icons/go";
 import { FaEquals } from "react-icons/fa";
-
+import { useNavigate } from "react-router-dom";
 
 import './Bloug.css';
 const Bloug = () => {
+    const navigate = useNavigate()
     return (
         <div style={{ height: '150%' }}>
             <div className='Toolbar-support-header'>
@@ -37,9 +38,14 @@ const Bloug = () => {
                     <div className='percentage-box'>
                         <GiSkeletonInside />
                     </div>
-
+                    <div className='system-buttons'>
+                    <button className='login' onClick={()=>navigate('/Login')} type="button" >login</button>
+                    <button className='Registration' onClick={()=>navigate('/Registration/1')} type="button">Registration</button>
                 </div>
+                </div>
+               
             </div>
+            
         </div>
     )
 }
