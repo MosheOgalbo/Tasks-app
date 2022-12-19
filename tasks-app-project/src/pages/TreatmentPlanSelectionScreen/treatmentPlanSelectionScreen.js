@@ -16,34 +16,41 @@ const TreatmentPlanSelectionScreen = ({ setRegistrationData }) => {
 
       <div className='select-Tracks'>
 
-        <button className='activePhysical' type={"button"} value={"BASIC"}  onClick={(e) => { onChangeData(e) }}>
+        <div className='activePhysicalContainer' >
           <div className='Tracks'>
-            <div className='Track-title'>
-              <h2>BASIC</h2>
+            <div className='pricing-wrapper'>
+              <div className='Track-title'>
+                <h2>PRO</h2>
+              </div>
+              <h6>6 months</h6>
+              <button className='activePhysical' type={"button"} value={"BASIC"} onClick={(e) => { onChangeData(e) }}>PRO</button>
             </div>
-            <h6>6 months</h6>
           </div>
-        </button>
+        </div>
 
-        <button className='activePhysical' type={"button"} value={"PLUS"}  onClick={(e) => { onChangeData(e) }}>
+        <div className='activePhysicalContainer' >
           <div className='Tracks'>
-            <div className='Track-title'>
-              <h2>PLUS</h2>
+            <div className='pricing-wrapper'>
+              <div className='Track-title'>
+                <h2>PLUS</h2>
+              </div>
+              <h6>6 months</h6>
+              <button className='activePhysical' type={"button"} value={"BASIC"} onClick={(e) => { onChangeData(e) }}>PLUS</button>
             </div>
-
-            <h6>4 months</h6>
           </div>
-        </button>
+        </div>
 
-        <button className='activePhysical' type={"button"} value={"PRO"}  onClick={(e) => { onChangeData(e) }}>
+        <div className='activePhysicalContainer' >
           <div className='Tracks'>
-            <div className='Track-title'>
-              <h2>PRO</h2>
+            <div className='pricing-wrapper'>
+              <div className='Track-title'>
+                <h2>BASIC</h2>
+              </div>
+              <h6>6 months</h6>
+              <button className='activePhysical' type={"button"} value={"BASIC"} onClick={(e) => { onChangeData(e) }}>BASIC</button>
             </div>
-
-            <h6>3 months</h6>
           </div>
-        </button>
+        </div>
 
       </div>
       <div>

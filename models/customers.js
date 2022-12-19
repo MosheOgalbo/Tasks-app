@@ -17,7 +17,8 @@ const customersSchema = new mongoose.Schema({
         weight: { type: String, required: true },
         scope: { type: String, required: true }
     },
-    salt: { type: String }
+    salt: { type: String },
+    calculatedTask:[{type: mongoose.Types.ObjectId, ref:'task'}]
 });
 const Customers = mongoose.model("Customers", customersSchema);
 

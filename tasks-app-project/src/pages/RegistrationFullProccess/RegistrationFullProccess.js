@@ -51,7 +51,7 @@ const RegistrationFullProccess = ({ setIsAuthenticated }) => {
 
     if (step === "1") return <Registration registrationData={registrationData} setRegistrationData={setRegistrationData} />
     else if (step === "2") return <TreatmentPlanSelectionScreen setRegistrationData={setRegistrationData} />
-    else if (step === "3") return <UserBodyData registrationData={registrationData} createNewCustomer={createNewCustomer} errorMessage={errorMessage} setRegistrationData={setRegistrationData} />
+    else if (step === "3") return <UserBodyData registrationData={registrationData} setErrorMessage={setErrorMessage} createNewCustomer={createNewCustomer} errorMessage={errorMessage} setRegistrationData={setRegistrationData} />
 
 
     return (

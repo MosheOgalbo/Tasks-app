@@ -22,6 +22,8 @@ const postCustomer = async (req, res) => {
         }
         const tokanpassword = jwt.sign( {id: customers.id, expiresIn: 79000}, process.env.JWT_SECRET)
         customers.password = bcrypt.hashSync(customers.password, salt)
+
+//  
         await customers.save()
 
         return serverResponse(res, 200, {
